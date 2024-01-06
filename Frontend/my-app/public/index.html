@@ -24,6 +24,84 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --primary-color-hue:252;
+        --light-color-lightness:95%;
+        --dark-color-lightness:17%;
+        --white-color-lightness:100%;
+        --color-white:hsl(252,30%,var(--white-color-lightness));
+        --color-light:hsl(252,30%,var(--light-color-lightness));
+        --color-gray:hsl(252,15%,65%);
+        --color-primary:hsl(var(--primary-color-hue),75%,60%);
+        --color-secondary:hsl(252,100%,90%);
+        --color-success:hsl(120,95%,65%);
+        --color-danger:hsl(0,95%,65%);
+        --color-dark:hsl(252,30%,var(--dark-color-lightness));
+        --color-black:hsl(252,30%,10%);
+
+        --border-radius:2rem;
+        --card-border-radius:1rem;
+        --btn-padding:0.6rem 2rem;
+        --card-padding:1rem;
+
+        --sticky-top-left:5.4rem;
+        --sticky-top-right:-18rem;
+      }
+      body{
+        font-family: 'Poppins', sans-serif;     
+        color: var(--color-dark);
+        background: var(--color-light);
+        overflow-x: hidden;
+      }
+      .container{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.profile-photo{
+  width: 2.7rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+img{
+  display: block;
+  width: 100%;
+}
+
+.btn{
+  display: inline-block;
+  padding: var(--btn-padding);
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 300ms ease;
+  font-size: 0.9rem;
+}
+
+.btn:hover{
+  opacity: 0.8;
+}
+
+.btn-primary{
+  background: var(--color-primary);
+  color:white
+}
+
+.text-bold{
+  font-weight: 500;
+}
+
+.text-muted{
+  color:var(--color-gray);
+}
+    </style>
     <title>React App</title>
   </head>
   <body>
@@ -39,5 +117,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    
   </body>
 </html>
