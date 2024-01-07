@@ -1,0 +1,70 @@
+/* Setting.css */
+
+/* Container styles */
+.settings-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading styles */
+  .settings-container h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .settings-container h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  /* Form styles */
+  .settings-container form {
+    display: grid;
+    grid-gap: 15px;
+  }
+  
+  /* Form field styles */
+  .settings-container label {
+    font-size: 16px;
+  }
+  
+  .settings-container input,
+  .settings-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  /* Button styles */
+  .settings-container button {
+    margin-top: 10px;
+  }
+  
+ 
+  
+  
+  
+  .settings-container .btn-danger {
+    background-color:var(--color-danger);
+    color: #fff;
+  }
+  
+  .settings-container .btn-danger:hover {
+    background-color: #bd2130;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .settings-container {
+      max-width: 100%;
+      margin: 10px;
+    }
+  }
+  
