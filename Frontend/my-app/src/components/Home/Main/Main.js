@@ -74,7 +74,7 @@ const Main = () =>{
                     <a className="menu-item" id="theme">
                         <span><i className="uil uil-palette"></i></span><h3>Theme</h3>
                     </a>
-                    <a className="menu-item active">
+                    <a href="/settings"className="menu-item">
                         <span><i className="uil uil-cog"></i></span><h3>Settings</h3>
                     </a>
                 </div>
