@@ -35,7 +35,7 @@ const Main = () =>{
                         <div className="notifications-popup">
                             <div>
                                 <div className="profile-photo">
-                                    <img src={Logo} alt="Profile-Photo"/>
+                                    <img src={Logo} alt="Profile"/>
                                 </div>
                                 <div className="notification-body">
                                     <b>Nikhil Mishra</b> accepted your friend request
@@ -44,7 +44,7 @@ const Main = () =>{
                             </div>
                             <div>
                                 <div className="profile-photo">
-                                    <img src={Logo} alt="Profile-Photo"/>
+                                    <img src={Logo} alt="Profile"/>
                                 </div>
                                 <div className="notification-body">
                                     <b>Jammy Khan</b> send you friend request
@@ -53,7 +53,7 @@ const Main = () =>{
                             </div>
                             <div>
                                 <div className="profile-photo">
-                                    <img src={Logo} alt="Profile-Photo"/>
+                                    <img src={Logo} alt="Profile"/>
                                 </div>
                                 <div className="notification-body">
                                     <b>Sharjeel Ansari</b> commented on your post
@@ -119,7 +119,7 @@ const Main = () =>{
                             <div className="head">
                                 <div className="user">
                                     <div className="profile-photo">
-                                        <img src={Logo} alt="Profile-Photo"/>
+                                        <img src={Logo} alt="Profile"/>
                                     </div>
                                     <div className="info">
                                         <h3>Roshan Yadav</h3>
@@ -127,23 +127,23 @@ const Main = () =>{
                                     </div>
                                 </div>
                                 <span className="edit">
-                                    <i class="uil uil-ellipsis-h"></i>
+                                    <i className="uil uil-ellipsis-h"></i>
                                 </span>
                             </div>
 
 
                             <div className="photo">
-                                <img src={Logo} alt="Profile-Photo"/>
+                                <img src={Logo} alt="Profile"/>
                             </div>
 
                             <div className="action-buttons">
                                 <div className="interaction-buttons">
-                                <span><i class="uil uil-thumbs-up"></i></span>
-                                <span><i class="uil uil-comment"></i></span>
-                                <span><i class="uil uil-share"></i></span>
+                                <span><i className="uil uil-thumbs-up"></i></span>
+                                <span><i className="uil uil-comment"></i></span>
+                                <span><i className="uil uil-share"></i></span>
                                 </div>
                                 <div className="bookmarks">
-                                    <span><i class="uil uil-bookmark-full"></i></span>
+                                    <span><i className="uil uil-bookmark-full"></i></span>
                                 </div>
                             </div>
                             <div className="liked-by">
@@ -163,7 +163,7 @@ const Main = () =>{
                             <div className="head">
                                 <div className="user">
                                     <div className="profile-photo">
-                                        <img src={Logo} alt="Profile-Photo"/>
+                                        <img src={Logo} alt="Profile"/>
                                     </div>
                                     <div className="info">
                                         <h3>Roshan Yadav</h3>
@@ -171,23 +171,23 @@ const Main = () =>{
                                     </div>
                                 </div>
                                 <span className="edit">
-                                    <i class="uil uil-ellipsis-h"></i>
+                                    <i className="uil uil-ellipsis-h"></i>
                                 </span>
                             </div>
 
 
                             <div className="photo">
-                                <img src={Logo} alt="Profile-Photo"/>
+                                <img src={Logo} alt="Profile"/>
                             </div>
 
                             <div className="action-buttons">
                                 <div className="interaction-buttons">
-                                <span><i class="uil uil-thumbs-up"></i></span>
-                                <span><i class="uil uil-comment"></i></span>
-                                <span><i class="uil uil-share"></i></span>
+                                <span><i className="uil uil-thumbs-up"></i></span>
+                                <span><i className="uil uil-comment"></i></span>
+                                <span><i className="uil uil-share"></i></span>
                                 </div>
                                 <div className="bookmarks">
-                                    <span><i class="uil uil-bookmark-full"></i></span>
+                                    <span><i className="uil uil-bookmark-full"></i></span>
                                 </div>
                             </div>
                             <div className="liked-by">
@@ -207,7 +207,7 @@ const Main = () =>{
                             <div className="head">
                                 <div className="user">
                                     <div className="profile-photo">
-                                        <img src={Logo} alt="Profile-Photo"/>
+                                        <img src={Logo} alt="Profile"/>
                                     </div>
                                     <div className="info">
                                         <h3>Roshan Yadav</h3>
@@ -215,23 +215,23 @@ const Main = () =>{
                                     </div>
                                 </div>
                                 <span className="edit">
-                                    <i class="uil uil-ellipsis-h"></i>
+                                    <i className="uil uil-ellipsis-h"></i>
                                 </span>
                             </div>
 
 
                             <div className="photo">
-                                <img src={Logo} alt="Profile-Photo"/>
+                                <img src={Logo} alt="Profile"/>
                             </div>
 
                             <div className="action-buttons">
                                 <div className="interaction-buttons">
-                                <span><i class="uil uil-thumbs-up"></i></span>
-                                <span><i class="uil uil-comment"></i></span>
-                                <span><i class="uil uil-share"></i></span>
+                                <span><i className="uil uil-thumbs-up"></i></span>
+                                <span><i className="uil uil-comment"></i></span>
+                                <span><i className="uil uil-share"></i></span>
                                 </div>
                                 <div className="bookmarks">
-                                    <span><i class="uil uil-bookmark-full"></i></span>
+                                    <span><i className="uil uil-bookmark-full"></i></span>
                                 </div>
                             </div>
                             <div className="liked-by">
@@ -251,7 +251,7 @@ const Main = () =>{
                             <div className="head">
                                 <div className="user">
                                     <div className="profile-photo">
-                                        <img src={Logo} alt="Profile-Photo"/>
+                                        <img src={Logo} alt="Profile"/>
                                     </div>
                                     <div className="info">
                                         <h3>Roshan Yadav</h3>
@@ -259,23 +259,23 @@ const Main = () =>{
                                     </div>
                                 </div>
                                 <span className="edit">
-                                    <i class="uil uil-ellipsis-h"></i>
+                                    <i className="uil uil-ellipsis-h"></i>
                                 </span>
                             </div>
 
 
                             <div className="photo">
-                                <img src={Logo} alt="Profile-Photo"/>
+                                <img src={Logo} alt="Profile"/>
                             </div>
 
                             <div className="action-buttons">
                                 <div className="interaction-buttons">
-                                <span><i class="uil uil-thumbs-up"></i></span>
-                                <span><i class="uil uil-comment"></i></span>
-                                <span><i class="uil uil-share"></i></span>
+                                <span><i className="uil uil-thumbs-up"></i></span>
+                                <span><i className="uil uil-comment"></i></span>
+                                <span><i className="uil uil-share"></i></span>
                                 </div>
                                 <div className="bookmarks">
-                                    <span><i class="uil uil-bookmark-full"></i></span>
+                                    <span><i className="uil uil-bookmark-full"></i></span>
                                 </div>
                             </div>
                             <div className="liked-by">
@@ -299,7 +299,7 @@ const Main = () =>{
                             <h4>Messages</h4><i className="uil uil-message"></i>
                         </div>
                         <div className="search-bar">
-                        <i class="uil uil-search"></i>
+                        <i className="uil uil-search"></i>
                         <input type="search" placeholder="search messages" id="message-search"/>
                         </div>
                         <div className="category">
@@ -309,7 +309,7 @@ const Main = () =>{
                         </div>
                         <div className="message">
                             <div className="profile-photo">
-                                <img src={Logo} alt="Profile-Photo"/>
+                                <img src={Logo} alt="Profile"/>
                                 <div className="active"></div>
                             </div>
                             <div className="message-body">
@@ -321,10 +321,10 @@ const Main = () =>{
 
                     <div className="friend-requets">
                         <h4>Requests</h4>
-                        <div class="request">
+                        <div className="request">
                             <div className="info">
                                 <div className="profile-photo">
-                                    <img src={Logo} alt="Profile-Photo"/>
+                                    <img src={Logo} alt="Profile"/>
                                 </div>
                                 <div>
                                     <h5>Anaya Jammy Khan</h5>

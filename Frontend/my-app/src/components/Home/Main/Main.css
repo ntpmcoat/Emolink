@@ -132,7 +132,7 @@ main .container .left .profile{
 
 .left .notifications-popup > div{
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     gap: 1rem;
     margin-bottom: 1rem;
 }
