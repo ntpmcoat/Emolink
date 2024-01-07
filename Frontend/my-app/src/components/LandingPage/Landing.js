@@ -13,7 +13,7 @@ const Landing = () => {
                         <img src={Logo} alt="Logo" />
                     </div>
                     <div className="right flex-center">
-                        <a href="" className="btn btn-secondary">Sign Up/Sign In</a>
+                        <a href="/home" className="btn btn-secondary">Sign Up/Sign In</a>
                     </div>
                 </div>
             </header>

@@ -121,11 +121,8 @@ html {
 }
 
 body {
-    font-family: var(--primary-font);
-    font-size: 16px;
     line-height: 1.5;
     overflow-x: hidden;
-    color: var(--color-secondary);
 }
 
 section {
@@ -175,7 +172,7 @@ header .right{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: var(--color-primary);
+    /* color: var(--color-primary); */
 }
 .hero__content h1{
     font-size: 4rem;
