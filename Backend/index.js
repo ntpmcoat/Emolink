@@ -3,15 +3,26 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { config } from 'dotenv';
 import cors from 'cors';
-import auth from './routes/auth.js'
+import multer from 'multer';
+import auth from './routes/auth.js';
+import addPost from './routes/addPost.js';
+
+
 
 config();
 
 const app=express();
 
-app.use(bodyParser.json({limit:"30mb",extended:true}));
+app.use(bodyParser.json({limit:"30mb"}));
 app.use(bodyParser.urlencoded({limit:"30mb",extended:true}));
 app.use(cors());
+
+const storage=multer.memoryStorage();
+const  upload=multer({storage:storage});
+
+app.use('/api/post',addPost);
+app.use('/api/post',upload.single('image'),addPost);
+
 
 
 const CONNECTION_URL=process.env.MONGODB_URI;
