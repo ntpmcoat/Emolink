@@ -32,15 +32,19 @@ const Main = () => {
             ...formData,
             image: e.target.files[0],
         });
+        console.log(setData);
     };
     const handleCreatePost = async (e) => {
         e.preventDefault();
 
         try {
             const data = new FormData();
+            console.log(formData.caption+" "+formData.image)
             data.append('caption', formData.caption);
             data.append('image', formData.image);
-
+            for (let pair of data.entries()) {
+                console.log(pair[0] + ": " + pair[1]);
+            }
             const response = await addPostApi(data);
 
             dispatch(addPost(response))
@@ -54,7 +58,7 @@ const Main = () => {
             <main>
                 <div className="container">
                     <div className="left">
-                        <a className="profile">
+                        <a href="/profile" className="profile">
                             <div className="profile-photo">
                                 <img src={Logo} alt="Profiles" />
                             </div>
@@ -108,7 +112,7 @@ const Main = () => {
                             <a className="menu-item">
                                 <span><i className="uil uil-bookmark"></i></span><h3>Bookmarks</h3>
                             </a>
-                            <a className="menu-item">
+                            <a href="/analytics" className="menu-item">
                                 <span><i className="uil uil-analytics"></i></span><h3>Analytics</h3>
                             </a>
                             <a className="menu-item" id="theme">
@@ -147,15 +151,15 @@ const Main = () => {
                                 <p className="name">Sharjeel Mishra</p>
                             </div>
                         </div>
-                        <form action="" className="create-post">
+                        <form action="" className="create-post" encType="multipart/form-data">
                             <div className="profile-photo">
                                 <img src={Logo} alt="Post-Pic" />
                             </div>
                             <input type="text" placeholder="What's on your mind?" id="create-post" name="caption" value={formData.caption} onChange={handleInputChange} />
-                            <input type="file" accept="image/*" id="create-post-image" onChange={handleImageChange} />
+                            <input type="file" accept="image/*" name="image" id="create-post-image" onChange={handleImageChange} />
                             <input type="submit" value="Post" className="btn btn-primary" onClick={handleCreatePost} />
                         </form>
-                        <Feeds/>
+                        {/* <Feeds/> */}
                     </div>
                     <div className="right">
                         <div className="messages">
@@ -178,7 +182,7 @@ const Main = () => {
                                 </div>
                                 <div className="message-body">
                                     <h5>Fardeen</h5>
-                                    <p className="text-bold">Kaisa hai chutiye</p>
+                                    <p className="text-bold">Kaisa hai bhai</p>
                                 </div>
                             </div>
                         </div>

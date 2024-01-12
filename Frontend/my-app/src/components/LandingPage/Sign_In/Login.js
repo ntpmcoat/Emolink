@@ -6,11 +6,46 @@ import "./Login.css"; // Import your CSS file
 import LoginFunction from "./Function.js";
 import { registerUser,loginUser } from "../../../api/index.js";
 import './Login.css';
+import Swal from 'sweetalert2';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
     useEffect(()=>{
         LoginFunction();
     },[]);
+    const history=useNavigate();
+
+    const regShowAlertSuccess = () => {
+        Swal.fire({
+          title: 'Registration Success',
+          text: 'Please Login To continue',
+          icon: 'success',
+        });
+    }
+
+    const regShowAlertFail = () => {
+        Swal.fire({
+          title: 'Registration Fail',
+          text: 'Please Try again later',
+          icon: 'error',
+        });
+    }
+
+    const LogShowAlertSuccess = () => {
+        Swal.fire({
+          title: 'Login Success',
+          text: 'Please Enjoy',
+          icon: 'success',
+        });
+    }
+
+    const LogShowAlertFail = () => {
+        Swal.fire({
+          title: 'Login Fail',
+          text: 'Please Try again later',
+          icon: 'error',
+        });
+    }
 
     const [formData, setFormData] = useState({
         name: '',
@@ -23,14 +58,13 @@ const Login = () => {
     const handleSignUp = async(e) => {
         e.preventDefault();
         try {
-        
-      
             const user = await registerUser(formData);
-      
+            regShowAlertSuccess();
             // Dispatch actions to update user state
             dispatch(setUser(user));
             dispatch(authenticateUser());
           } catch (error) {
+            regShowAlertFail();
            console.log("Registration error");
           }
       };
@@ -41,12 +75,15 @@ const Login = () => {
            
       
             const user = await loginUser(formData);
-      
+            LogShowAlertSuccess();
+            history('/home');
+
             // Dispatch actions to update user state
             dispatch(setUser(user));
             dispatch(authenticateUser());
           } catch (error) {
             console.log("Login Error");
+            LogShowAlertFail();
           }
       }
 

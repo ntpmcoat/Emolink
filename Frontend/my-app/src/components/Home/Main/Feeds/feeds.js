@@ -10,7 +10,6 @@ const Feeds = () => {
     const fetchPosts = async () => {
       try {
         const response = await fetchPostApi();
-        console.log(response.data);
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -24,10 +23,14 @@ const Feeds = () => {
     <>
       <div className="feeds">
         {posts.length > 0 ? (
+          
           posts.map((post) => {
             const base64String = btoa(
               new Uint8Array(post.image.data.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
             );
+            // const base64String=btoa(
+            //   String.fromCharCode(...new Uint8Array((post.image.data.data)))
+            // );
 
             return (
               <div className="feed" key={post._id}>
@@ -52,9 +55,9 @@ const Feeds = () => {
 
                 <div className="action-buttons">
                   <div className="interaction-buttons">
-                    <span><i className="uil uil-thumbs-up"></i></span>
-                    <span><i className="uil uil-comment"></i></span>
-                    <span><i className="uil uil-share"></i></span>
+                    <span><i className="uil uil-thumbs-up">{post.likes}</i></span>
+                    <span><i className="uil uil-comment">{post.comments}</i></span>
+                    <span><i className="uil uil-share">{post.shares}</i></span>
                   </div>
                   <div className="bookmarks">
                     <span><i className="uil uil-bookmark-full"></i></span>
@@ -62,10 +65,10 @@ const Feeds = () => {
                 </div>
 
                 <div className="caption">
-                  <p><b>{/*{post.author}*/}</b>{post.caption}</p>
+                  <p><b>{post.author}</b>{post.caption}</p>
                 </div>
 
-                <div className="text-muted">view all{/* {post.comments.length}*/} comments</div>
+                <div className="text-muted">view all {post.comments.length} comments</div>
               </div>
             );
           })

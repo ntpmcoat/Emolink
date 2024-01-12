@@ -3,7 +3,6 @@ const LoginFunction = () => {
     const registerBtn = document.querySelector('#register');
     const loginBtn = document.querySelector('#login');
   
-    console.log("cont" + container + " reg" + registerBtn + " log" + loginBtn);
   
     if (container && registerBtn && loginBtn) {
       registerBtn.addEventListener('click', () => {

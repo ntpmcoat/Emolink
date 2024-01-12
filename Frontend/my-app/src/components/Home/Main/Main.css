@@ -381,7 +381,7 @@ main .container .right{
     border: 3px solid var(--color-white);
     background: var(--color-success);
     position: absolute;
-    bottom: 0;
+    bottom: 1.2rem;
     right: 0;
 }
 

@@ -1,11 +1,12 @@
 import  axios from 'axios';
 
-const url='http://localhost:5000/api/auth';
-const post='http://localhost:5000/api/post';
+const url='http://localhost:5000';
+const addpost='http://localhost:5000/api/addpost';
+const getpost='http://localhost:5000/api/getpost';
 
 export const registerUser=async(userData)=>{
     try {
-        const response=await axios.post(`${url}/register`,userData);
+        const response=await axios.post(`${url}/register`,userData,{withCredentials:true});
         return response.data;
     } catch (error) {
         console.log("Error registering USer:",error);
@@ -15,7 +16,7 @@ export const registerUser=async(userData)=>{
 
 export const loginUser = async (userData) => {
     try {
-      const response = await axios.post(`${url}/login`, userData);
+      const response = await axios.post(`${url}/login`, userData,{withCredentials:true});
       return response.data;
     } catch (error) {
       // Handle error
@@ -26,7 +27,7 @@ export const loginUser = async (userData) => {
 
 export const addPostApi = async (postData)=>{
   try {
-    const response=await axios.post(`${post}/addPost`,postData,{
+       const response=await axios.post(`${addpost}/addPost`,postData,{
       headers:{
         'Content-Type':'multipart/form-data',
       },
@@ -41,7 +42,7 @@ export const addPostApi = async (postData)=>{
 
 export const fetchPostApi=async(posts)=>{
   try {
-    const response= await axios.get(`${post}/fetchPost`);
+    const response= await axios.get(`${getpost}/getPost`);
     return response;
   } catch (error) {
     console.error("Error getting posts");
