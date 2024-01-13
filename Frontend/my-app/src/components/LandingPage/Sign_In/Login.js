@@ -18,7 +18,7 @@ const Login = () => {
     const regShowAlertSuccess = () => {
         Swal.fire({
           title: 'Registration Success',
-          text: 'Please Login To continue',
+          text: 'Please Veify Email on your mail To continue',
           icon: 'success',
         });
     }
