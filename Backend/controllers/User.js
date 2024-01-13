@@ -106,12 +106,12 @@ export const loginUser = async (req, res) => {
         httpOnly: true,
       });
 
-      res.status(200).send('ok');
+      res.status(200).json({user});
      
     }else {
-      console.log("Invalid credentials");
+      res.status(400).send("Invalid credentials");
     }
     }catch(error) {
-    res.redirect("/login?LoginError=Server Down Please Try again later");
+    res.status(404).send(error);
   }
 };

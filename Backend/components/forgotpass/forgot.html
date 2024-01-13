@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="forgot.css">
+    <title>Forgot Password</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #passwordMismatch {
+            color: red;
+            display: none;
+        }
+
+        #successMessage {
+            color: green;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Forgot Password</h2>
+        <form id="forgotPasswordForm">
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <p id="passwordMismatch" style="color: red; display: none;">Passwords do not match.</p>
+            <p id="successMessage">Password successfully changed!</p>
+
+            <button type="button" onclick="changePassword()">Change Password</button>
+        </form>
+    </div>
+
+    <script>
+        async function changePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordMismatch = document.getElementById('passwordMismatch');
+            const successMessage = document.getElementById('successMessage');
+
+            // Extract token from the URL
+            const url = window.location.href;
+            const token = url.split('/').pop();
+
+            if (newPassword === confirmPassword) {
+                // Passwords match, send the data to the server
+                const response = await fetch(`http://localhost:5000/reset-password/${token}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        newPassword: newPassword,
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Password changed successfully
+                    successMessage.style.display = 'block';
+                    passwordMismatch.style.display = 'none'; // Hide password mismatch message
+                } else {
+                    // Handle the response from the server, e.g., show an error message
+                    console.error(data.error);
+                    successMessage.style.display = 'none'; // Hide success message if displayed
+                    passwordMismatch.style.display = 'none'; // Hide password mismatch message
+                }
+            } else {
+                // Passwords do not match, show an error message
+                passwordMismatch.style.display = 'block';
+                successMessage.style.display = 'none'; // Hide success message if displayed
+            }
+        }
+    </script>
+</body>
+</html>

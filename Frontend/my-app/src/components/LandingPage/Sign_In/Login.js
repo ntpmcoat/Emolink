@@ -76,6 +76,7 @@ const Login = () => {
       
             const user = await loginUser(formData);
             LogShowAlertSuccess();
+            console.log(user);
             history('/home');
 
             // Dispatch actions to update user state
@@ -123,7 +124,7 @@ const Login = () => {
             <span>or use your email password</span>
             <input type="email" placeholder="Email" name="email" value={formData.email} onChange={handleInputChange}/>
             <input type="password" placeholder="Password" name="password" value={formData.password} onChange={handleInputChange}/>
-            <a href="#">Forget Your Password?</a>
+            <a href="/settings">Forget Your Password?</a>
             <button onClick={handleSignIn}>Sign In</button>
         </form>
     </div>

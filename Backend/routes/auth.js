@@ -3,6 +3,10 @@ import { registerUser, loginUser } from '../controllers/User.js';
 const router = express.Router();
 import Register from '../Models/User.js';
 import Token from '../Models/token.js';
+import  jwt  from 'jsonwebtoken';
+import crypto from 'crypto';
+import { sendEmail } from '../config/sendEmail.js';
+import bcrypt from 'bcrypt';
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -32,7 +36,7 @@ router.get("/users/:id/verify/:token", async (req, res) => {
         user.verified = true;
         await user.save();
 
-            await verifyToken.deleteOne();
+        await verifyToken.deleteOne();
         
 
         // Redirect or send a success message
@@ -50,34 +54,45 @@ router.get('/logout', (req, res) => {
 
 
 router.post('/forgot-password', async (req, res) => {
-    const email = req.body.email;
-
     try {
-        
-
-        // Step 3: Store the Token and Expiry Time
-        const user = await Register.findOne({ email });
-        if (!user) {
-            res.redirect("/login?RegistrationError=No user found Please Register first");
-        }
-
-        const resetToken = new Token({
-            userid: user._id, // Reference to the user
-            token: crypto.randomBytes(32).toString('hex')
-        });
-        await resetToken.save();
-
-
-        // Step 4: Send a Password Reset Email
-        const resetLink = `${process.env.BASE_URL}/reset-password/${resetToken.token}`;
-        const emailText = `Click the following link to reset your password: ${resetLink}`;
-        await sendEmail(email, 'Password Reset', emailText);
-
-        res.redirect("/login?ResetEmail=Password Reset Email Sent ");
+      
+      
+  
+      const email = req.body.storage;
+      
+  
+      // Step 3: Fetch the user by email
+      const user = await Register.findOne({ email: email });
+  
+      if (!user) {
+        return res.status(400).send('User not found');
+      }
+  
+      // Step 4: Generate and save a reset token
+      const resetToken = new Token({
+        userid: user._id,
+        token: crypto.randomBytes(32).toString('hex'),
+      });
+      await resetToken.save();
+  
+      // Step 5: Send a Password Reset Email
+      const resetLink = `${process.env.BASE_URL}/reset-password/${resetToken.token}`;
+      const emailText = `Click the following link to reset your password: ${resetLink}`;
+      await sendEmail(email, 'Password Reset', emailText);
+  
+      return res.status(200).send('Email sent for password reset');
     } catch (error) {
-        res.redirect("/login?ResetEmailError=Server Error");
+      console.log(error);
+  
+      if (error.name === 'JsonWebTokenError') {
+        return res.status(401).send('Invalid token');
+      } else if (error.name === 'TokenExpiredError') {
+        return res.status(401).send('Token expired');
+      } else {
+        return res.status(500).send('Internal server error');
+      }
     }
-});
+  });
 
 
 //  Verify Token and Expiry
@@ -91,7 +106,7 @@ router.get('/reset-password/:token', async (req, res) => {
         }
 
         // Render a page for the user to reset their password
-        return res.render(path.join(__dirname,"views/reset-password.hbs"), { token });
+        res.redirect(`/forgot-pass/${token}`);        ;
     } catch (error) {
         res.redirect("/login?ResetEmailError=Server Error");
     }
@@ -99,7 +114,7 @@ router.get('/reset-password/:token', async (req, res) => {
 
 // Reset Password
 router.post('/reset-password/:token', async (req, res) => {
-    const resetToken = req.params.token; // Use a different variable name for clarity
+    const resetToken = req.params.token;
     const newPassword = req.body.newPassword;
 
     try {
@@ -111,7 +126,7 @@ router.post('/reset-password/:token', async (req, res) => {
         const user = await Register.findOne({ _id: tokenDocument.userid });
 
         if (!user) {
-            res.redirect("/login?RegistrationError=No user found Please Register first");
+            return res.redirect("/login?RegistrationError=No user found Please Register first");
         }
 
         // Update the user's password with the new one
@@ -122,11 +137,12 @@ router.post('/reset-password/:token', async (req, res) => {
         // Delete the token after successful password reset
         await Token.deleteOne({ userid: tokenDocument.userid });
 
-        res.redirect("/login?ResetEmailSuccess=Password Changed Successfully");
+        res.status(200).send('ok');
     } catch (error) {
         console.error(error);
-        res.redirect("/login?ResetEmailError=Server Error");
+        return res.redirect("/login?ResetEmailError=Server Error");
     }
 });
+
 
 export default router;

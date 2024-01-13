@@ -3,6 +3,9 @@
 import React from 'react';
 import './Setting.css';
 import { useNavigate } from 'react-router-dom';
+import { forgotPass } from '../../api';
+import Swal from 'sweetalert2';
+
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -11,9 +14,33 @@ const Settings = () => {
     console.log('Profile settings updated');
   };
 
-  const handleChangePassword = () => {
-    console.log('Password changed');
-  };
+  const handleChangePassword=()=>{
+
+
+    const forgotShowAlertSuccess = () => {
+      Swal.fire({
+        title: 'Email Send',
+        text: 'Please click on the link sent to you email to change password',
+        icon: 'Success',
+      });
+  }
+    const forgotShowAlertFail = () => {
+      Swal.fire({
+        title: 'Server Busy',
+        text: 'Please Try again later',
+        icon: 'error',
+      });
+  }
+    try {
+      const response=forgotPass();
+      forgotShowAlertSuccess()
+
+      console.log(response);
+    } catch (error) {
+      forgotShowAlertFail();
+      console.log(error);
+    }
+  }
 
   const handleLogout = () => {
     console.log('Logged out');
@@ -51,19 +78,9 @@ const Settings = () => {
 
       {/* Change Password */}
       <div className="change-password">
-        <h3>Change Password</h3>
-        <form>
-          <label htmlFor="current-password">Current Password:</label>
-          <input type="password" id="current-password" name="current-password" />
-
-          <label htmlFor="new-password">New Password:</label>
-          <input type="password" id="new-password" name="new-password" />
-
-          <label htmlFor="confirm-password">Confirm Password:</label>
-          <input type="password" id="confirm-password" name="confirm-password" />
+       
 
           <button type="button" onClick={handleChangePassword} className='btn btn-primary'>Change Password</button>
-        </form>
       </div>
 
       {/* Account Actions */}

@@ -8,6 +8,10 @@ const tokenSchema=new Schema({
         ref:"RegisteredUser",
         unique:true,
     },
+    email:{
+        type:String,
+        require:true,
+    },
     token:{
         type:String,
         require:true
