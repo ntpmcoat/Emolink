@@ -10,6 +10,7 @@ import getPost from './routes/getPost.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import analyticsRouter from './routes/analytics.js';
 
 config();
 
@@ -27,6 +28,7 @@ const upload = multer({ storage: storage });
 
 app.use('/api/addPost', upload.single('image'), addPost);
 app.use('/api/getPost', getPost);
+app.use('/analytics',analyticsRouter);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

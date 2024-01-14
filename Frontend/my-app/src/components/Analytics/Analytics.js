@@ -1,41 +1,42 @@
-import React from 'react'
-import './Analytics.css'
-import { BsFillArchiveFill, BsPeopleFill, BsFillTrophyFill, BsFillBellFill} from 'react-icons/bs'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
-
+import React, { useEffect, useState } from 'react';
+import { BsFillArchiveFill, BsPeopleFill, BsFillTrophyFill, BsFillBellFill } from 'react-icons/bs';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
 import Header from '../Home/Navbar/Navbar.js';
+import { fetchUserActivityDuration } from '../../api/index.js';
+import './Analytics.css';
 
-const Analytics = () =>  {
+const formatDuration = (value) => {
+  const hours = Math.floor(value / 3600);
+  const minutes = Math.floor((value % 3600) / 60);
+  return `${hours} hours ${minutes} minutes`;
+};
 
-  const data = [
-    {
-      name: 'Page A',
-      st: 4000,
-    },
-    {
-      name: 'Page B',
-      st :500,
-    },
-    {
-      name: 'Page C',
-      st : 5000
-    },
-    {
-      name: 'Page D',
-      st : 3000
-    },
-    
-  ];
- 
+const Analytics = () => {
+  const [userActivityDuration, setUserActivityDuration] = useState([]);
+
+  useEffect(() => {
+    const email = localStorage.getItem('token');
+    const username = email; // Replace with actual username
+    const fetchUserActivityData = async () => {
+      try {
+        const activityDuration = await fetchUserActivityDuration(username);
+        setUserActivityDuration(activityDuration);
+      } catch (error) {
+        console.error('Error fetching user activity duration:', error);
+      }
+    };
+
+    fetchUserActivityData();
+  }, []);
+
   return (
     <div>
       <Header className='header' />
-    <div className='container'>
-    <div className='analytics-grid-container'>
-{/*       sidebar */}
-      <main className='analytics-main-container'>
-         <div className='main-cards'>
+      <div className='container'>
+        <div className='analytics-grid-container'>
+          <main className='analytics-main-container'>
+          <div className='main-cards'>
             <div className='card'>
                 <div className='card-inner'>
                     <h3>No. of Posts</h3>
@@ -64,59 +65,65 @@ const Analytics = () =>  {
                 </div>
                 <h1>42</h1>
             </div>
-        </div>
+            </div>
 
-        <div className='charts'>
-            <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-            width={400}
-            height={400}
-            data={data}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-            }}
-            >
-                <CartesianGrid strokeDasharray="5 5" />
-                <XAxis dataKey="name" />
-                <YAxis dataKey="st" />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="st" fill="rgb(155, 208, 7)" />
-                </BarChart>
-            </ResponsiveContainer>
-
-            <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
+            <div className='charts'>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  width={400}
+                  height={400}
+                  data={userActivityDuration}
+                  margin={{
                     top: 5,
                     right: 30,
                     left: 20,
                     bottom: 5,
-                }}
+                  }}
                 >
-                <CartesianGrid strokeDasharray="10 10" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="st" stroke="rgb(155, 208, 7)" activeDot={{ r: 8 }} />
-                
-                </LineChart>
-            </ResponsiveContainer>
+                  <CartesianGrid strokeDasharray="5 5" />
+                  <XAxis dataKey="activityTimestamp" />
+                  <YAxis dataKey="durationInSeconds" />
+                  <Tooltip
+                    formatter={(value) => formatDuration(value)}
+                  />
+                  <Legend />
+                  <Bar dataKey="durationInSeconds" fill="rgb(155, 208, 7)" />
+                </BarChart>
+              </ResponsiveContainer>
 
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  width={500}
+                  height={300}
+                  data={userActivityDuration}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="10 10" />
+                  <XAxis dataKey="activityTimestamp" />
+                  <YAxis />
+                  <Tooltip
+                    formatter={(value) => formatDuration(value)}
+                  />
+                  <Legend />
+                  <Line
+                    type="monotone"
+                    dataKey="durationInSeconds"
+                    stroke="rgb(155, 208, 7)"
+                    activeDot={{ r: 8 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </main>
         </div>
-    </main>
+      </div>
     </div>
-    </div>
-    </div>
-  )
-}
+  );
+};
 
 export default Analytics;
-

@@ -71,3 +71,14 @@ export const forgotPass = async () => {
     throw error; // Re-throw the error to propagate it up the call stack
   }
 };
+
+
+export const fetchUserActivityDuration = async(username)=>{
+  try {
+    const response = await axios.get(`${url}/analytics/userActivityDuration/${username}`);
+    return response.data.userActivityDuration;
+  } catch (error) {
+    console.error('Error fetching user activity duration:', error);
+    throw error;
+  }
+}
