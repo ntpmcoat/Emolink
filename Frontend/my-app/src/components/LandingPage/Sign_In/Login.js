@@ -11,7 +11,7 @@ const Login = () => {
     useEffect(()=>{
         LoginFunction();
     },[]);
-    const history=useNavigate();
+    const navigate=useNavigate();
 
     const regShowAlertSuccess = () => {
         Swal.fire({
@@ -72,7 +72,8 @@ const Login = () => {
       
             const user = await loginUser(formData);
             LogShowAlertSuccess();
-            history('/home');
+            
+            navigate('/home');
 
             
           } catch (error) {
