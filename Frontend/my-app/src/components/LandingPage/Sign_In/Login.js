@@ -1,7 +1,5 @@
 import React,{useEffect,useState} from "react";
-import { useDispatch } from 'react-redux';
-import { authenticateUser } from '../../../features/Auth/authSlice.js';
-import { setUser } from '../../../features/User/userSlice.js';
+
 import "./Login.css"; // Import your CSS file
 import LoginFunction from "./Function.js";
 import { registerUser,loginUser } from "../../../api/index.js";
@@ -53,7 +51,6 @@ const Login = () => {
         password: '',
       });
 
-    const dispatch=useDispatch();
 
     const handleSignUp = async(e) => {
         e.preventDefault();
@@ -61,8 +58,7 @@ const Login = () => {
             const user = await registerUser(formData);
             regShowAlertSuccess();
             // Dispatch actions to update user state
-            dispatch(setUser(user));
-            dispatch(authenticateUser());
+      
           } catch (error) {
             regShowAlertFail();
            console.log("Registration error");
@@ -76,12 +72,9 @@ const Login = () => {
       
             const user = await loginUser(formData);
             LogShowAlertSuccess();
-            console.log(user);
             history('/home');
 
-            // Dispatch actions to update user state
-            dispatch(setUser(user));
-            dispatch(authenticateUser());
+            
           } catch (error) {
             console.log("Login Error");
             LogShowAlertFail();

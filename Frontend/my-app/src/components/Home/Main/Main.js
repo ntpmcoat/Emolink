@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import './Main.css'
 import { addPostApi } from "../../../api/index.js";
-import { addPost } from "../../../features/Post/postSlice.js";
 import Logo from "../Images/Logo.png"
 import Feeds from "./Feeds/feeds.js";
-
+import Swal from "sweetalert2";
 import myFunction from "./Function.js"
 
 
@@ -14,12 +13,25 @@ const Main = () => {
         myFunction();
     }, []);
 
-    const dispatch = useDispatch();
 
     const [formData, setData] = useState({
         caption: '',
         image: null,
     });
+    const postShowAlertSuccess = () => {
+        Swal.fire({
+          title: 'Post Success',
+          text: 'Post Posted',
+          icon: 'success',
+        });
+    }
+    const postShowAlertFail = () => {
+        Swal.fire({
+          title: 'Post Failed',
+          text: 'Post not Posted',
+          icon: 'error',
+        });
+    }
     const handleInputChange = (e) => {
         setData({
             ...formData,
@@ -32,23 +44,21 @@ const Main = () => {
             ...formData,
             image: e.target.files[0],
         });
-        console.log(setData);
     };
     const handleCreatePost = async (e) => {
         e.preventDefault();
 
         try {
             const data = new FormData();
-            console.log(formData.caption+" "+formData.image)
             data.append('caption', formData.caption);
             data.append('image', formData.image);
-            for (let pair of data.entries()) {
-                console.log(pair[0] + ": " + pair[1]);
-            }
+            
             const response = await addPostApi(data);
+            postShowAlertSuccess();
 
-            dispatch(addPost(response))
+
         } catch (error) {
+            postShowAlertFail();
             console.error('Error creating post:', error);
 
         }
@@ -159,7 +169,7 @@ const Main = () => {
                             <input type="file" accept="image/*" name="image" id="create-post-image" onChange={handleImageChange} />
                             <input type="submit" value="Post" className="btn btn-primary" onClick={handleCreatePost} />
                         </form>
-                        {/* <Feeds/> */}
+                        <Feeds/>
                     </div>
                     <div className="right">
                         <div className="messages">

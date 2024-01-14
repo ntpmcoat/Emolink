@@ -17,7 +17,6 @@ export const registerUser=async(userData)=>{
 export const loginUser = async (userData) => {
     try {
       const response = await axios.post(`${url}/login`, userData,{withCredentials:true});
-      console.log(response);
       localStorage.setItem('token',response.data.user.email);
       return response.data;
     } catch (error) {
@@ -27,19 +26,24 @@ export const loginUser = async (userData) => {
     }
   };
 
-export const addPostApi = async (postData)=>{
-  try {
-       const response=await axios.post(`${addpost}/addPost`,postData,{
-      headers:{
-        'Content-Type':'multipart/form-data',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Add not posted',error);
-    throw error;
-  }
-}
+  export const addPostApi = async (postData) => {
+    try {
+      const email = localStorage.getItem('token'); // Assuming the email is stored as the token
+      postData.append('email', email);
+      
+      const response = await axios.post(`${addpost}/addPost`, postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      return response.data;
+    } catch (error) {
+      console.error('Add not posted', error);
+      throw error;
+    }
+  };
+  
 
 
 export const fetchPostApi=async(posts)=>{

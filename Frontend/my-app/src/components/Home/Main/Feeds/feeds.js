@@ -65,7 +65,7 @@ const Feeds = () => {
                 </div>
 
                 <div className="caption">
-                  <p><b>{post.author}</b>{post.caption}</p>
+                  <p><b>{post.author}</b> {post.caption}</p>
                 </div>
 
                 <div className="text-muted">view all {post.comments.length} comments</div>
