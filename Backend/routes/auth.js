@@ -29,7 +29,7 @@ router.get("/users/:id/verify/:token", async (req, res) => {
 
         // Check if the token exists and is valid
         if (!verifyToken) {
-            res.redirect("Invalid Or Expired Token");
+            return res.send("Invalid Or Expired Token");
         }
 
         // Mark the user as verified

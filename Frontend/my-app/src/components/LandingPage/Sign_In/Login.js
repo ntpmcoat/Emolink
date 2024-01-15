@@ -71,9 +71,10 @@ const Login = () => {
            
       
             const user = await loginUser(formData);
+            navigate('/home');
             LogShowAlertSuccess();
             
-            navigate('/home');
+            
 
             
           } catch (error) {

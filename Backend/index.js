@@ -11,7 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import analyticsRouter from './routes/analytics.js';
-
+import profileRouter from './routes/profile.js';
 config();
 
 const app = express();
@@ -29,6 +29,7 @@ const upload = multer({ storage: storage });
 app.use('/api/addPost', upload.single('image'), addPost);
 app.use('/api/getPost', getPost);
 app.use('/analytics',analyticsRouter);
+app.use('/profile',profileRouter)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

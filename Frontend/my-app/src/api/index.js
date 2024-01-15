@@ -82,3 +82,24 @@ export const fetchUserActivityDuration = async(username)=>{
     throw error;
   }
 }
+
+export const fetchProfileData = async (username) => {
+  try {
+      const response = await axios.get(`http://localhost:5000/profile/user?username=${username}`);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      throw error;
+  }
+}
+
+export const updateBio = async (username, editedBio) => {
+  try {
+      await axios.put(`${url}/profile/updateBio/${username}`, {
+          bio: editedBio,
+      });
+  } catch (error) {
+      console.error('Error updating bio:', error);
+      throw error;
+  }
+};

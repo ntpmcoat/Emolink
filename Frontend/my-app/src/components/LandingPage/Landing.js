@@ -8,7 +8,7 @@ const Landing = () => {
         <>
 
             <header>
-                <div className="container flex-row">
+                <div className="landing-container flex-row">
                     <div className="header__logo">
                         <img src={Logo} alt="Logo" />
                     </div>
