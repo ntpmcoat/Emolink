@@ -1,0 +1,44 @@
+
+  
+  .story-container {
+      display: grid;
+      grid-template-columns: 18vw auto 20vw;
+      column-gap: 2rem;
+      position: relative;
+      margin: 20vh 2vw;
+      overflow: hidden;
+  }
+  
+  .story-container .image {
+    width: 100%;
+    height: auto;
+  }
+
+  .navi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:60vh;
+  }
+  
+.story-container .navi .btn {
+  border-radius: var(--border-radius);
+  display: inline-block;
+  font-weight: 500;
+  transition: all 300ms ease;
+  font-size: 0.9rem;
+  padding: var(--btn-padding);
+    background-color: #e4e8ed;
+    border: 2px solid ;
+    color: #0d0d0d;
+    
+    cursor: pointer;
+  }
+
+ 
+  
+  
+ 
+  
+  
+  

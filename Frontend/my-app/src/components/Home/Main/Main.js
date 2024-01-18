@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
+
+import { BsPlusCircle } from 'react-icons/bs';
 import './Main.css'
 import { addPostApi } from "../../../api/index.js";
 import { addPost } from "../../../features/Post/postSlice.js";
 import Logo from "../Images/Logo.png"
 import Feeds from "./Feeds/feeds.js";
+import ChatBox from "./ChatBox/ChatBox.js";
+import Story from "./Story/Story.js";
 
 import myFunction from "./Function.js"
 
@@ -39,7 +43,7 @@ const Main = () => {
 
         try {
             const data = new FormData();
-            console.log(formData.caption+" "+formData.image)
+            console.log(formData.caption + " " + formData.image)
             data.append('caption', formData.caption);
             data.append('image', formData.image);
             for (let pair of data.entries()) {
@@ -53,8 +57,40 @@ const Main = () => {
 
         }
     }
+//-------------------------------------------------------------------------
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const handleOpenChat = (user) => {
+        setSelectedUser(user);
+    };
+
+    const handleCloseChat = () => {
+        setSelectedUser(null);
+    };
+
+//------------------------------------------------------------------------------story
+const [showStories, setShowStories] = useState(false);
+const toggleStories = () => {
+    setShowStories(!showStories);
+  };
+   // abi ke liye example
+   const [storiesData, setStoriesData] = useState([
+    'p1.png' , 'p2.png' , 'p3.png'
+   ]);
+
+   //--------------create story
+
+  const [CreateStory, setCreate] = useState(false);
+const toggleCreateStory = () => {
+    setCreate(!CreateStory);
+  };
+
+ 
+  
     return (
-        <>
+        <> 
+    {showStories ? (<Story stories={storiesData}  onClose={toggleStories} /> ) : (
+                        
             <main>
                 <div className="container">
                     <div className="left">
@@ -63,8 +99,8 @@ const Main = () => {
                                 <img src={Logo} alt="Profiles" />
                             </div>
                             <div className="handle">
-                                <h4>Jaikishen</h4>
-                                <p className="text-muted">@jai</p>
+                                <h4>Nikhil</h4>
+                                <p className="text-muted">ntpm@coat</p>
                             </div>
                         </a>
                         <div className="sidebar">
@@ -126,31 +162,46 @@ const Main = () => {
                     </div>
                     <div className="center">
                         <div className="stories">
-                            <div className="story">
+                            <div className="story" onClick={toggleStories}>
+                            
                                 <div className="profile-photo">
                                     <img src={Logo} alt="Post" />
                                 </div>
                                 <p className="name">Jaikishen Mishra</p>
                             </div>
-                            <div className="story">
+                            <div className="story" onClick={toggleStories}>
                                 <div className="profile-photo">
                                     <img src={Logo} alt="Post" />
                                 </div>
                                 <p className="name">Nikhil Mishra</p>
                             </div>
-                            <div className="story">
+                            <div className="story" onClick={toggleStories}>
                                 <div className="profile-photo">
                                     <img src={Logo} alt="Post" />
                                 </div>
                                 <p className="name">Jammy Mishra</p>
                             </div>
-                            <div className="story">
-                                <div className="profile-photo">
-                                    <img src={Logo} alt="Post" />
-                                </div>
-                                <p className="name">Sharjeel Mishra</p>
+                          
+                           {CreateStory ? (
+                               <div className="story create-story-form"  >
+                            <form action="" className="create-story" encType="multipart/form-data">
+                            <input type="file" accept="image/*" name="story" id="create-story-image" />
+                            <input type="submit" value="Story" className="btn "  />
+                            </form>
                             </div>
+                               
+                           ) :(
+                             <div className="story create-face"  onClick={toggleCreateStory}>
+                            <BsPlusCircle  size={'7vw'}/>
+                            </div>
+                            
+                            )}
+                          
                         </div>
+                      
+                        
+
+                        
                         <form action="" className="create-post" encType="multipart/form-data">
                             <div className="profile-photo">
                                 <img src={Logo} alt="Post-Pic" />
@@ -175,16 +226,24 @@ const Main = () => {
                                 <h6>General</h6>
                                 <h6 className="message-requests">Requests</h6>
                             </div>
-                            <div className="message">
-                                <div className="profile-photo">
-                                    <img src={Logo} alt="Profile" />
-                                    <div className="active"></div>
-                                </div>
-                                <div className="message-body">
-                                    <h5>Fardeen</h5>
-                                    <p className="text-bold">Kaisa hai bhai</p>
-                                </div>
-                            </div>
+                            
+                            {selectedUser ? (
+                            <ChatBox user={selectedUser} onClose={handleCloseChat} />
+                        ) :(
+                                    <div className="message" onClick={() => handleOpenChat("Fardeen")}>
+                                        <div className="profile-photo">
+                                            <img src={Logo} alt="Profile" />
+                                            <div className="active"></div>
+                                        </div>
+                                        <div className="message-body">
+                                            <h5>Fardeen</h5>
+                                            <p className="text-bold">Kaisa hai bhai</p>
+                                        </div>
+                                    </div>
+                        )}
+                            
+                            {/* Chat box */}
+                            {/* {selectedUser && (<ChatBox user={selectedUser} onClose={handleCloseChat} />)} */}
                         </div>
 
                         <div className="friend-requets">
@@ -214,6 +273,7 @@ const Main = () => {
                     </div>
                 </div>
             </main>
+    )}
 
             <div className="customize-theme">
                 <div className="card">
@@ -265,6 +325,7 @@ const Main = () => {
                     </div>
                 </div>
             </div>
+        
         </>
     );
 };

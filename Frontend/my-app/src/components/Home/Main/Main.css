@@ -3,6 +3,7 @@ main{
     top:5.4rem;
 }
 
+
 main .container{
     display: grid;
     grid-template-columns: 18vw auto 20vw;
@@ -165,6 +166,12 @@ main .container .left .profile{
 }
 
 
+.center .stories .create{
+    justify-content: center;
+    
+}
+
+
 .center .stories .story::before{
     content: "";
     display: block;
@@ -191,8 +198,40 @@ main .container .left .profile{
 }
 
 .center .stories .story:nth-child(4){
-    background: url('../Images/Logo.png') no-repeat center center/cover;
+    background: url('../Images/Logo.png') no-repeat center center/cover  blur(0.1px);
+    background-color: rgba(0, 0, 0, 0.3); /*Adjust the alpha value for darkness*/
+   
 }
+
+.center .stories .create-face{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center .stories .create-story-form .create-story{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 2px;
+    
+}
+
+.center .stories .create-story-form .create-story .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem ;
+
+}
+
+
+.center .stories .create-story{
+    
+    font-size: smaller;
+}
+
 
 .center .story .profile-photo{
     width: 2rem;

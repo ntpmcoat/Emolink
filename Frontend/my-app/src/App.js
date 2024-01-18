@@ -7,6 +7,7 @@ import Login from './components/LandingPage/Sign_In/Login.js';
 import Settings from './components/Settings/Setting.js';
 import Profile from './components/Profile/Profile.js';
 import Analytics from './components/Analytics/Analytics.js';
+import Story from './components/Home/Main/Story/Story.js';
 
 
 const App= () => {
@@ -20,6 +21,7 @@ const App= () => {
                 <Route path='/settings' element={<Settings/>}/>
                 <Route path='/profile' element={<Profile/>}/>
                 <Route path='/analytics' element={<Analytics/>}/>
+                <Route path='/story' element={<Story />}/>
             </Routes>
         </Router>
         </>
