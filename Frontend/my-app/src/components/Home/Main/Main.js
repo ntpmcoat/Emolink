@@ -1,16 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
 import './Main.css'
 import { addPostApi } from "../../../api/index.js";
 import Logo from "../Images/Logo.png"
 import Feeds from "./Feeds/feeds.js";
 import Swal from "sweetalert2";
 import myFunction from "./Function.js"
-
+import ChatBox from "./Chat/ChatBox.js";
+import axios from "axios";
 
 const Main = () => {
+    const [users, setUsers] = useState([]);
     useEffect(() => {
         myFunction();
+        const fetchUsers = async () => {
+            try {
+                const token = localStorage.getItem('tokenurl');
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                };
+                const response = await axios.get('http://localhost:5000/username', config);
+                setUsers(response.data);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+
+        fetchUsers();
     }, []);
 
 
@@ -18,20 +36,23 @@ const Main = () => {
         caption: '',
         image: null,
     });
+
     const postShowAlertSuccess = () => {
         Swal.fire({
-          title: 'Post Success',
-          text: 'Post Posted',
-          icon: 'success',
+            title: 'Post Success',
+            text: 'Post Posted',
+            icon: 'success',
         });
     }
+
     const postShowAlertFail = () => {
         Swal.fire({
-          title: 'Post Failed',
-          text: 'Post not Posted',
-          icon: 'error',
+            title: 'Post Failed',
+            text: 'Post not Posted',
+            icon: 'error',
         });
     }
+
     const handleInputChange = (e) => {
         setData({
             ...formData,
@@ -45,6 +66,7 @@ const Main = () => {
             image: e.target.files[0],
         });
     };
+
     const handleCreatePost = async (e) => {
         e.preventDefault();
 
@@ -52,17 +74,25 @@ const Main = () => {
             const data = new FormData();
             data.append('caption', formData.caption);
             data.append('image', formData.image);
-            
-            const response = await addPostApi(data);
+
+            await addPostApi(data);
             postShowAlertSuccess();
-
-
         } catch (error) {
             postShowAlertFail();
             console.error('Error creating post:', error);
-
         }
     }
+
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const handleOpenChat = (user) => {
+        setSelectedUser(user);
+    };
+
+    const handleCloseChat = () => {
+        setSelectedUser(null);
+    };
+
     return (
         <>
             <main>
@@ -74,7 +104,7 @@ const Main = () => {
                             </div>
                             <div className="handle">
                                 <h4>Jaikishen</h4>
-                                <p className="text-muted">@jai</p>
+                                <p className="text-muted">@jaikishen</p>
                             </div>
                         </a>
                         <div className="sidebar">
@@ -85,7 +115,7 @@ const Main = () => {
                                 <span><i className="uil uil-compass"></i></span><h3>Explore</h3>
                             </a>
                             <a className="menu-item" id="notifications">
-                                <span><i className="uil uil-bell    "><small className="notification-count">9+</small></i></span><h3>Notifications</h3>
+                                <span><i className="uil uil-bell"><small className="notification-count">9+</small></i></span><h3>Notifications</h3>
                                 <div className="notifications-popup">
                                     <div>
                                         <div className="profile-photo">
@@ -166,10 +196,10 @@ const Main = () => {
                                 <img src={Logo} alt="Post-Pic" />
                             </div>
                             <input type="text" placeholder="What's on your mind?" id="create-post" name="caption" value={formData.caption} onChange={handleInputChange} />
-                            <input type="file" accept="image/*" name="image" id="create-post-image" onChange={handleImageChange} />
+                            <input type="file" className="btn-primary"accept="image/*" name="image" id="create-post-image" onChange={handleImageChange} />
                             <input type="submit" value="Post" className="btn btn-primary" onClick={handleCreatePost} />
                         </form>
-                        <Feeds/>
+                        <Feeds />
                     </div>
                     <div className="right">
                         <div className="messages">
@@ -185,16 +215,26 @@ const Main = () => {
                                 <h6>General</h6>
                                 <h6 className="message-requests">Requests</h6>
                             </div>
-                            <div className="message">
-                                <div className="profile-photo">
-                                    <img src={Logo} alt="Profile" />
-                                    <div className="active"></div>
-                                </div>
-                                <div className="message-body">
-                                    <h5>Fardeen</h5>
-                                    <p className="text-bold">Kaisa hai bhai</p>
-                                </div>
-                            </div>
+
+                            {selectedUser ? (
+                                <ChatBox user={selectedUser} onClose={handleCloseChat} />
+                            ) : (
+                                users.map(user => (
+                                    <div
+                                        key={user._id}
+                                        className="message"
+                                        onClick={() => handleOpenChat(user)}
+                                    >
+                                        <div className="profile-photo">
+                                            <img src={Logo} alt="Profile" />
+                                        </div>
+                                        <div className="message-body">
+                                            <h5>{user.username}</h5>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+
                         </div>
 
                         <div className="friend-requets">
@@ -228,7 +268,7 @@ const Main = () => {
             <div className="customize-theme">
                 <div className="card">
                     <h2>Customize your theme</h2>
-                    <p>Manage your font size,color and background</p>
+                    <p>Manage your font size, color, and background</p>
 
                     <div className="font-size">
                         <h4>Font Size</h4>

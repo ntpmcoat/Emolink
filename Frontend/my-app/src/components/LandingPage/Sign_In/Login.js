@@ -57,7 +57,7 @@ const Login = () => {
         try {
             const user = await registerUser(formData);
             regShowAlertSuccess();
-            // Dispatch actions to update user state
+            window.location.reload();
       
           } catch (error) {
             regShowAlertFail();

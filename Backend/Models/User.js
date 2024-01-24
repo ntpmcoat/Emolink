@@ -33,6 +33,8 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  default:[],
+
   sentFriendRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -65,15 +67,22 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = async function () {
   try {
+    // Generate a new token
     const token = jwt.sign(
       { _id: this._id.toString(), email: this.email },
       process.env.SECRET_KEY
     );
-    this.tokens = this.tokens.concat({ token: token });
+
+    // Set the new token directly in the model's tokens array
+    this.tokens = [{ token }];
+
+    // Save the updated user with the new token
     await this.save();
+
+    // Return the new token
     return token;
   } catch (error) {
-    console.log(error);
+    console.log(error+ "Jai");
   }
 };
 
