@@ -17,7 +17,6 @@ export const registerUser=async(userData)=>{
 export const loginUser = async (userData) => {
     try {
       const response = await axios.post(`${url}/login`, userData,{withCredentials:true});
-      console.log(response);
       localStorage.setItem('token',response.data.user.email);
       return response.data;
     } catch (error) {
@@ -27,19 +26,24 @@ export const loginUser = async (userData) => {
     }
   };
 
-export const addPostApi = async (postData)=>{
-  try {
-       const response=await axios.post(`${addpost}/addPost`,postData,{
-      headers:{
-        'Content-Type':'multipart/form-data',
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Add not posted',error);
-    throw error;
-  }
-}
+  export const addPostApi = async (postData) => {
+    try {
+      const email = localStorage.getItem('token'); // Assuming the email is stored as the token
+      postData.append('email', email);
+      
+      const response = await axios.post(`${addpost}/addPost`, postData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      return response.data;
+    } catch (error) {
+      console.error('Add not posted', error);
+      throw error;
+    }
+  };
+  
 
 
 export const fetchPostApi=async(posts)=>{
@@ -65,5 +69,37 @@ export const forgotPass = async () => {
   } catch (error) {
     console.error('Error in forgotPass:', error);
     throw error; // Re-throw the error to propagate it up the call stack
+  }
+};
+
+
+export const fetchUserActivityDuration = async(username)=>{
+  try {
+    const response = await axios.get(`${url}/analytics/userActivityDuration/${username}`);
+    return response.data.userActivityDuration;
+  } catch (error) {
+    console.error('Error fetching user activity duration:', error);
+    throw error;
+  }
+}
+
+export const fetchProfileData = async (username) => {
+  try {
+      const response = await axios.get(`http://localhost:5000/profile/user?username=${username}`);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      throw error;
+  }
+}
+
+export const updateBio = async (username, editedBio) => {
+  try {
+      await axios.put(`${url}/profile/updateBio/${username}`, {
+          bio: editedBio,
+      });
+  } catch (error) {
+      console.error('Error updating bio:', error);
+      throw error;
   }
 };

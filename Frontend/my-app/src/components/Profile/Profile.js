@@ -1,95 +1,119 @@
-import React from 'react';
-import './Profile.css';
-import '../Home/Main/Main.css'
-import Navbar from '../Home/Navbar/Navbar.js';
 
-const followers = 0;
-const following = 0;
-const posts = 0;
+import React, { useState, useEffect } from 'react';
+import './Profile.css';
+import Navbar from '../Home/Navbar/Navbar.js';
+import Logo from '../Home/Images/Logo.png';
+import { fetchProfileData,updateBio } from '../../api/index.js';
 
 const Profile = () => {
+    const [userData, setUserData] = useState({
+        followers: 0,
+        following: 0,
+        posts: 0,
+        username: '',
+        fullName: '',
+        userImage: '',
+        bio: '',
+    });
+
+    const [isEditingBio, setIsEditingBio] = useState(false);
+    const [editedBio, setEditedBio] = useState('');
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const username = localStorage.getItem('token');
+                const response = await fetchProfileData(username);
+                // Handle the response and update state
+                setUserData(response);
+                setEditedBio(response.bio);
+            } catch (error) {
+                console.error('Error in fetching profile data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleEditBio = () => {
+        setIsEditingBio(true);
+    };
+
+    const handleSaveBio = async () => {
+        try {
+            const username=localStorage.getItem('token');
+            await updateBio(username, editedBio);
+
+            // Update the local state
+            setUserData(prevData => ({
+                ...prevData,
+                bio: editedBio,
+            }));
+
+            setIsEditingBio(false);
+        } catch (error) {
+            console.error('Error updating bio:', error);
+        }
+    };
+
     return (
-        <div >
+        <div>
             <Navbar />
-            <div className='container'>
+            <div className='profile-container'>
                 <div className='profile'>
-                    <div className='profile-left'>
-                    </div>
-                    <div className='profile-right'>
-                        <div className='profile-top'>
-                            <div className='cover'>
-                                <img className='cover-image' src='./images/cover.jpg' />
-                                {/* user image */}
-                                <img className='user-image' src='logo192.png' />
-                                <button className='edit-button'> edit </button>
-                            </div>
-                            <div className='profile-info'>
-                                <div>
-                                    <h4 className='user-name'>ntpm@coat002</h4>
-                                    <span className='Original-name'>Nikhil Mishra</span>
-                                </div>
-                                <div className='numbers'>
-                                    <a href='' className='num'>
-                                        <div>{followers}</div>
-                                        <div>followers</div>
-                                    </a>
-                                    <a className='num'>
-                                        <div>{following}</div>
-                                        <div>following</div>
-                                    </a>
-                                    <a className='num'>
-                                        <div>{posts}</div>
-                                        <div>posts</div>
-                                    </a>
-                                </div>
-                                <hr />
-                            </div>
+                    <img className='user-image' src={Logo} alt='User' />
+                    <button className='edit-button'>edit</button>
+                    <div className='profile-info'>
+                        <div>
+                            <h4 className='user-name'>{userData.username}</h4>
+                            <span className='original-name'>{userData.fullName}</span>
                         </div>
-
-                        <div className='profile-bottom'>
-                            <div className='left-about'>
-                                <ul>
-                                    <li className='uil uil-home'> {'\u00A0\u00A0'} Male </li>
-                                    <li className='uil uil-home'> {'\u00A0\u00A0'} Born : 17 Feb, 2004 </li>
-                                    <li className='uil uil-home'> {'\u00A0\u00A0'} navi mumbai </li>
-                                    <li className='uil uil-home'> {'\u00A0\u00A0'} abc@xyz.gmail.com </li>
-                                    <li className='uil uil-home'> {'\u00A0\u00A0'} 9769436384 </li>
-                                </ul>
-                            </div>
-                            <div className='center-pages'>
-                                {/* bhai yaha pe main jaisa message ka copy paste */}
-                                <div className='following active'>
-                                        <h6 className='head'>following</h6>
-                                </div>
-                                <div className='followers'>
-                                <h6 className='head'>followers</h6>
-                                </div>
-                                <div className='posts'>
-                                <h6 className='head'>post</h6>
-                                    {/* yaha pe hum posts dalenge jo jo usne kiya hoga */}
-                                </div>
-
-                            </div>
-                            <div className='right-suggestions'>
-                                <div className='tab might'>
-                                    <h5 className='rh'> You might known</h5>
-                                </div>
-                                <div className='tab recent'>
-                                    <h5 className='rh'> Recent</h5>
-                                </div>
-
-                            </div>
-
+                        <div className='numbers'>
+                            <a href='' className='num'>
+                                <div>{userData.followers}</div>
+                                <div>followers</div>
+                            </a>
+                            <a className='num'>
+                                <div>{userData.following}</div>
+                                <div>following</div>
+                            </a>
+                            <a className='num'>
+                                <div>{userData.posts}</div>
+                                <div>posts</div>
+                            </a>
+                        </div>
+                        <hr className='hr' />
+                    </div>
+                    <div className='profile-bottom'>
+                        <div className='left-about'>
+                            {isEditingBio ? (
+                                <>
+                                    <textarea
+                                        value={editedBio}
+                                        onChange={(e) => setEditedBio(e.target.value)}
+                                        rows={4}
+                                        cols={50}
+                                    />
+                                    <button onClick={handleSaveBio}>Save</button>
+                                </>
+                            ) : (
+                                <>
+                                    <ul>
+                                        <li className='uil uil-home'>{userData.bio}</li>
+                                    </ul>
+                                    <button onClick={handleEditBio} className='btn btn-secondary'>Edit Bio</button>
+                                </>
+                            )}
+                        </div>
+                        <div className='friend-request'>
+                            {/* Friend request button and content */}
+                            <button>Add Friend</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
-
-
-
+    );
+};
 
 export default Profile;
-

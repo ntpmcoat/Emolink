@@ -9,6 +9,14 @@ import Swal from 'sweetalert2';
 
 const Settings = () => {
   const navigate = useNavigate();
+  const LogOuthowAlertSuccess = () => {
+    Swal.fire({
+      title: 'LogOut Success',
+      text: 'Please Log in Again',
+      icon: 'success',
+    });
+}
+
 
   const handleProfileSettings = () => {
     console.log('Profile settings updated');
@@ -42,10 +50,12 @@ const Settings = () => {
     }
   }
 
-  const handleLogout = () => {
-    console.log('Logged out');
+  const handleLogout=()=>{
+    localStorage.removeItem('token');
     navigate('/login');
-  };
+    LogOuthowAlertSuccess();
+  }
+
 
   const handleDeactivateAccount = () => {
     console.log('Account deactivated');

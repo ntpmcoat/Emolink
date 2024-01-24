@@ -29,7 +29,7 @@ router.get("/users/:id/verify/:token", async (req, res) => {
 
         // Check if the token exists and is valid
         if (!verifyToken) {
-            res.redirect("Invalid Or Expired Token");
+            return res.send("Invalid Or Expired Token");
         }
 
         // Mark the user as verified
@@ -137,10 +137,9 @@ router.post('/reset-password/:token', async (req, res) => {
         // Delete the token after successful password reset
         await Token.deleteOne({ userid: tokenDocument.userid });
 
-        res.status(200).send('ok');
+        res.status(200).json('ok');
     } catch (error) {
-        console.error(error);
-        return res.redirect("/login?ResetEmailError=Server Error");
+        res.status(404).json(error+" Change password error");
     }
 });
 

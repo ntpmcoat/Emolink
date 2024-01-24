@@ -66,7 +66,7 @@ export const loginUser = async (req, res) => {
     const user = await Register.findOne({ email: email });
 
     if (!user) {
-      return res.redirect("/login?LoginError=User not found Please Register First"); // User not found
+      return res.send("User not found"); // User not found
     }
 
     // Compare the provided password with the hashed password in the database
@@ -92,7 +92,7 @@ export const loginUser = async (req, res) => {
     //     // Send a new verification email
         await sendEmail(user.email, "Resend Verification Email", url);
 
-        return res.redirect("/login?VerificationError=Email not verified. A new verification link has been sent to your email.");
+        return res.send("A new verification link has been sent to your email.");
       }
 
       // Generate a JWT token
