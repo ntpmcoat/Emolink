@@ -30,16 +30,32 @@ const App = () => {
 
     return (
         <>
-        <Router>
-            <Routes>
-                <Route path='/home' element={<Home/>}/>
-                <Route path='/' element={<Landing/>}/>
-                <Route path='/Login' element={<Login/>}/>
-                <Route path='/settings' element={<Settings/>}/>
-                <Route path='/profile' element={<Profile/>}/>
-                <Route path='/analytics' element={<Analytics/>}/>
-            </Routes>
-        </Router>
+            <Router>
+                <Routes>
+                    <Route path='/' element={<Landing />} />
+                    <Route path='/login' element={<Login />} />
+
+                    {/* AppWrapper is present for all other pages */}
+                    <Route
+                        path='/*'
+                        element={
+                            checkTokenAndNavigate() ? (
+                                <AppWrapper>
+                                    <Routes>
+                                        <Route path='/home' element={<Home />} />
+                                        <Route path='/settings' element={<Settings />} />
+                                        <Route path='/profile' element={<Profile />} />
+                                        <Route path='/analytics' element={<Analytics />} />
+                                    </Routes>
+                                </AppWrapper>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                </Routes>
+            </Router>
+
         </>
     );
 }

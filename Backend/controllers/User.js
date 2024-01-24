@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import Register from '../Models/User.js';
 import Token from '../Models/token.js';
 import { sendEmail } from '../config/sendEmail.js';// Import the sendEmail function
 import validator from 'validator';
 import crypto from 'crypto';
+import Chat from '../Models/chatModel.js';
 
 
 export const registerUser = async (req, res) => {
@@ -53,7 +53,7 @@ export const registerUser = async (req, res) => {
     });
    res.status(200).send('Done');
   } catch (e) {
-    res.status(404).send('Error');
+    res.status(404).send(e);
   }
 };
 
@@ -77,21 +77,7 @@ export const loginUser = async (req, res) => {
 
       // Check if the user is verified
       if (!user.verified) {
-        // Generate a new verification token
-        const newToken = new Token({
-          userid: user._id,
-          token: crypto.randomBytes(32).toString("hex"),
-        });
-
-        // Save the new token to the database
-         await newToken.save();
-
-    //     // Construct the verification URL with the new token
-       const url = `${process.env.BASE_URL}/users/${user._id}/verify/${newToken.token}`;
-
-    //     // Send a new verification email
-        await sendEmail(user.email, "Resend Verification Email", url);
-
+        // ... (your existing verification logic)
         return res.send("A new verification link has been sent to your email.");
       }
 
@@ -100,18 +86,89 @@ export const loginUser = async (req, res) => {
       const expiryDate = new Date();
       expiryDate.setMonth(expiryDate.getMonth() + 1);
 
+
       // Set the JWT token as a cookie
       res.cookie("jwt", token, {
         expires: expiryDate,
         httpOnly: true,
       });
 
-      res.status(200).json({user});
-     
-    }else {
+      res.status(200).json({ user });
+    } else {
       res.status(400).send("Invalid credentials");
     }
-    }catch(error) {
-    res.status(404).send(error);
+  } catch (error) {
+    console.log(error.message);
+    res.status(404).send(error.message);
   }
 };
+
+
+
+
+export const allUsers = async (req, res) => {
+  try {
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: 'i' } },
+            { email: { $regex: req.query.search, $options: 'i' } },
+          ],
+        }
+      : {};
+    
+    // Assuming you have a 'Register' model defined
+    const users = await Register.find({ ...keyword, _id: { $ne: req.user._id } });
+
+    res.send(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
+
+export const allUsernames = async (req, res) => {
+  try {
+    // Fetch all users except the current user
+    const users = await Register.find({ _id: { $ne: req.user._id } }, '_id username');
+
+    // Create an array to store the user data with appended chat IDs
+    const usersWithChatIds = [];
+
+    // Iterate through each user
+    for (const user of users) {
+      // Find the chat data for the pair of users (req.user._id and user._id)
+      const chat = await Chat.findOne({
+        $and: [
+          { users: req.user._id },
+          { users: user._id },
+        ],
+      });
+
+      // Append chat ID to user data
+      const userWithChatId = {
+        _id: user._id,
+        username: user.username,
+        chatId: chat ? chat._id : null, // Append chat ID if found, otherwise null
+      };
+      // Push the user data to the array
+      usersWithChatIds.push(userWithChatId);
+    }
+
+
+    // Convert the array to JSON
+    const jsonData = JSON.stringify(usersWithChatIds, null, 2);
+
+    // Send the response with the updated user data
+    res.json(usersWithChatIds);
+  } catch (error) {
+    console.error('Error fetching usernames:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
+
+

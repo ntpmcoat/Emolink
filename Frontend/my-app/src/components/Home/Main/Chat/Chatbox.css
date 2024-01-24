@@ -1,0 +1,42 @@
+.chat-box{
+    padding: 0.2rem;
+    border-radius: 1rem;
+  
+}
+
+.chat-box .btn-back {
+    display: inline;
+    padding: 0.2rem 0.5rem;
+    font-weight: 50;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 0.1rem;
+    margin-right: 1rem;
+    background-color: gray;
+
+}
+.chat-box .cht-header{
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+.chat-input{
+    display: flex;
+    flex-direction: row;
+    bottom: 0;
+}
+
+.chat-input .btn-send{
+    display: inline;
+    padding: 0.2rem;
+    font-weight: 50;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 1rem;
+
+}
+.chat-messages{
+    font-size: 0.8rem;
+    font-weight: bold;
+}

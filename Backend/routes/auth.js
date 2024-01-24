@@ -1,15 +1,17 @@
 import express from 'express';
-import { registerUser, loginUser } from '../controllers/User.js';
+import { registerUser, loginUser,allUsers, allUsernames } from '../controllers/User.js';
 const router = express.Router();
 import Register from '../Models/User.js';
 import Token from '../Models/token.js';
-import  jwt  from 'jsonwebtoken';
 import crypto from 'crypto';
 import { sendEmail } from '../config/sendEmail.js';
 import bcrypt from 'bcrypt';
+import protect from '../Middleware/auth.js';
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/alluser',protect,allUsers);
+router.get('/Username',protect,allUsernames);
 
 router.get("/users/:id/verify/:token", async (req, res) => {
     try {

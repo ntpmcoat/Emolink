@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
     "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -15,6 +16,7 @@
     "react-router-dom": "^6.21.1",
     "react-scripts": "^5.0.1",
     "recharts": "^2.10.4",
+    "socket.io-client": "^4.7.4",
     "sweetalert2": "^11.10.3",
     "web-vitals": "^2.1.4"
   },
